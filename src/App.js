@@ -25,6 +25,7 @@ const App = () => {
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
+  const reset = useField('reset')
 
   useEffect(() => {
     blogService
@@ -49,6 +50,26 @@ const App = () => {
     return (
       <div className="message">
         {message}
+      </div>
+    )
+  }
+
+  const Blogs = ({ blogs }) => {
+
+    const sortedBlogs = blogs.sort(function compare( a, b ) {
+      if (a.likes > b.likes){
+        return -1
+      }
+      if (a.likes < b.likes){
+        return 1
+      }
+      return 0
+    })
+
+    return (
+      <div>{sortedBlogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
       </div>
     )
   }
@@ -149,57 +170,6 @@ const App = () => {
     )
   }
 
-  //   <div>
-
-  //     <form onSubmit={handleLogin}>
-  //       <div>
-  //         käyttäjätunnus
-  //           <input
-  //           type="text"
-  //           value={username}
-  //           name="Username"
-  //           onChange={({ target }) => setUsername(target.value)}
-  //         />
-  //       </div>
-  //       <div>
-  //         salasana
-  //           <input
-  //           type="password"
-  //           value={password}
-  //           name="Password"
-  //           onChange={({ target }) => setPassword(target.value)}
-  //         />
-  //       </div>
-  //       <button type="submit">kirjaudu</button>
-  //     </form>
-  //   </div>
-  // )
-
-
-  // const blogForm = () => (
-  //   <form onSubmit={addBlog}>
-  //     <div>
-  //     title: <input
-  //       value={title}
-  //       onChange={({ target }) => setTitle(target.value)}
-  //     />
-  //     </div>
-  //     <div>
-  //     author: <input
-  //       value={author}
-  //       onChange={({ target }) => setAuthor(target.value)}
-  //     />
-  //     </div>
-  //     <div>
-  //     url: <input
-  //       value={url}
-  //       onChange={({ target }) => setUrl(target.value)}
-  //     />
-  //     </div>
-  //     <button type="submit">create</button>
-  //   </form>
-  // )
-
   if (user === null) {
     return (
       loginForm()
@@ -219,15 +189,9 @@ const App = () => {
           onSubmit={addBlog}
           title={title}
           author={author}
-          url={url}
-          //handleTitleChange={({ target }) => setTitle(target.value)}
-          //handleAuthorChange={({ target }) => setAuthor(target.value)}
-          //handleUrlChange={({ target }) => setUrl(target.value)}
-          />
+          url={url} />
       </Togglable>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <Blogs blogs={blogs}/>
     </div>
   )
 
