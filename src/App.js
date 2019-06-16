@@ -10,18 +10,11 @@ import './css/message.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  //const [newBlog, setNewBlog] = useState('')
-  //const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const username = useField('text')
   const password = useField('password')
-  //const [username, setUsername] = useState('')
-  //const [password, setPassword] = useState('')
   const [loginVisible, setLoginVisible] = useState(false)
   const [user, setUser] = useState(null)
-  //const [title, setTitle] = useState('')
-  //const [author, setAuthor] = useState('')
-  //const [url, setUrl] = useState('')
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
@@ -91,17 +84,17 @@ const App = () => {
 
       blogService.setToken(user.token)
       setUser(user)
-      //username.value = ''
-      //password.value = ''
-      //setUsername('')
-      //setPassword('')
       console.log(username.value)
+      username.reset()
+      password.reset()
 
     } catch (exception) {
       setErrorMessage('käyttäjätunnus tai salasana virheellinen')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+      username.reset()
+      password.reset()
     }
   }
   const handleLogout = async (event) => {
@@ -125,9 +118,9 @@ const App = () => {
       user: user
     }
 
-    //setTitle('')
-    //setAuthor('')
-    //setUrl('')
+    title.reset()
+    author.reset()
+    url.reset()
 
     blogService.create(blogObject)
       .then(returnedBlog => {
@@ -160,8 +153,6 @@ const App = () => {
           <LoginForm
             username={username}
             password={password}
-            //handleUsernameChange={username.onChange}
-            //handlePasswordChange={password.onChange}
             handleSubmit={handleLogin}
           />
           <button onClick={() => setLoginVisible(false)}>cancel</button>
